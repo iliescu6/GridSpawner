@@ -11,7 +11,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] Camera camera;
     [SerializeField] Grid grid;
     [SerializeField] Slider slider;
-    [SerializeField] Button spawnButton;
     [SerializeField] Button clearButton;
     [SerializeField] EventTrigger spawnTrigger;
     Vector3 distance;
@@ -26,19 +25,33 @@ public class UIManager : MonoBehaviour
         maxZoomOut = grid.GridSizeX < grid.GridSizeY ? (float)grid.GridSizeY / 2 : (float)grid.GridSizeX / 2;
         slider.onValueChanged.AddListener(delegate { CameraZoom(); });
 
-        EventTrigger.Entry entry = new EventTrigger.Entry();
-        entry.eventID = EventTriggerType.PointerDown;
-        entry.callback.AddListener((eventData) => { grid.Spawner.Spawn(); });
+        EventTrigger.Entry pointerDown = new EventTrigger.Entry();
+        pointerDown.eventID = EventTriggerType.PointerDown;
+        pointerDown.callback.AddListener((eventData) =>
+        {
+            grid.Spawner.SpawnObjects = true;            
+        });
 
-        spawnTrigger.triggers.Add(entry);
+        EventTrigger.Entry pointerUp = new EventTrigger.Entry();
+        pointerUp.eventID = EventTriggerType.PointerUp;
+        pointerUp.callback.AddListener((eventData) =>
+        {
+            grid.Spawner.SpawnObjects = false;
+        });
 
-        //spawnButton.onClick.AddListener(grid.Spawner.Spawn);
+        spawnTrigger.triggers.Add(pointerDown);
+        spawnTrigger.triggers.Add(pointerUp);
+
         clearButton.onClick.AddListener(grid.Spawner.Clear);
     }
 
     private void Update()
     {
         fps.text = string.Format("FPS: \n {0}", Mathf.Round(1f / Time.deltaTime));
+        if (grid.Spawner.SpawnObjects)
+        {
+            grid.Spawner.Spawn();
+        }
     }
 
     private void LateUpdate()

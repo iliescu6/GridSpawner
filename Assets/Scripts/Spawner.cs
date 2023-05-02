@@ -11,7 +11,9 @@ public class Spawner : MonoBehaviour
     GridUnit[,] grid;
     List<GridUnit> markedForClearing = new List<GridUnit>();
     Vector3 mousePositionOffset;
+    bool spawnObjects;
 
+    public bool SpawnObjects { get { return spawnObjects; } set { spawnObjects = value; } }
     public void Initialize(GridUnit[,] _grid, GridUnit unit, int _gridX, int _gridY)
     {
         curretUnit = unit;
@@ -76,18 +78,19 @@ public class Spawner : MonoBehaviour
 
     public void Spawn()
     {
+
         GridUnit temp = CommonUtils.CircularCheck(curretUnit.XIndex, curretUnit.YIndex, 1);
-            if (temp == null)
-            {
-                Debug.Log("end");
-            }
-            else
-            {
-                temp.Occupied = true;
-                SimpleObject newObject = Instantiate(prefab, new Vector3(transform.position.x, transform.position.y, -2), Quaternion.identity);
-                temp.SimpleObject = newObject;
-                StartCoroutine(newObject.MoveToTarget(new Vector3(temp.XPosition, temp.YPosition, 0)));
-            }
+        if (temp == null)
+        {
+            Debug.Log("end");
+        }
+        else
+        {
+            temp.Occupied = true;
+            SimpleObject newObject = Instantiate(prefab, new Vector3(transform.position.x, transform.position.y, -2), Quaternion.identity);
+            temp.SimpleObject = newObject;
+            StartCoroutine(newObject.MoveToTarget(new Vector3(temp.XPosition, temp.YPosition, 0)));
+        }
     }
 
     public void Clear()
