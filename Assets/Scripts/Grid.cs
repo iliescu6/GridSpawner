@@ -12,6 +12,10 @@ public class Grid : MonoBehaviour
     Spawner spawner;
     GridUnit[,] grid;
 
+    public int GridSizeX { get { return gridSizeX; } set { gridSizeX = value; } }
+    public int GridSizeY { get { return gridSizeY; } set { gridSizeY = value; } }
+    public Spawner Spawner { get { return spawner; } set { spawner = value; } }
+
     private void Awake()
     {
         Initialize();
@@ -42,6 +46,8 @@ public class Grid : MonoBehaviour
             }
         }
 
+        CommonUtils.Initialize(grid, gridSizeX, gridSizeY);
+
         int midX;
         int midY;
 
@@ -65,11 +71,11 @@ public class Grid : MonoBehaviour
 
         Spawner newSpawner = Instantiate(spawnerPrefab, new Vector3(grid[midX, midY].XPosition, grid[midX, midY].XPosition, 0), Quaternion.identity, transform);
         spawner = newSpawner;
-       
+
 
         spawner.Initialize(grid, grid[midX, midY], gridSizeX, gridSizeY);
-        GridUnit gridUnit = spawner.CircularCheck(midX, midY, 0);
-        spawner.transform.position = new Vector3(gridUnit.XPosition, gridUnit.YPosition, 0);
+        GridUnit gridUnit = CommonUtils.CircularCheck(midX, midY, 0);
+        spawner.transform.position = new Vector3(gridUnit.XPosition, gridUnit.YPosition, -3);
         spawner.SetCurrentGridUnit(gridUnit);
     }
 }

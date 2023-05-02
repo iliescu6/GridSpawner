@@ -20,8 +20,9 @@ public class SimpleObject : MonoBehaviour
 
     public IEnumerator MoveToTarget(Vector3 destination)
     {
-        while (Vector3.Distance(transform.position, destination) >0 )
+        while (Vector2.Distance(transform.position, destination) > .01f)
         {
+            Debug.Log("nope");
             transform.position = Vector3.Lerp(transform.position, destination, .05f);
             yield return null;
         }
