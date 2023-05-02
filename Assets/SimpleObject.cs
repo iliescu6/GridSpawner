@@ -22,7 +22,6 @@ public class SimpleObject : MonoBehaviour
     {
         while (Vector2.Distance(transform.position, destination) > .01f)
         {
-            Debug.Log("nope");
             transform.position = Vector3.Lerp(transform.position, destination, .05f);
             yield return null;
         }

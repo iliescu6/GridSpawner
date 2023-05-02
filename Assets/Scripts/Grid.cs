@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class Grid : MonoBehaviour
@@ -10,10 +11,10 @@ public class Grid : MonoBehaviour
     [SerializeField] Spawner spawnerPrefab;
 
     Spawner spawner;
+    GridInfo gridInfo;
     GridUnit[,] grid;
 
-    public int GridSizeX { get { return gridSizeX; } set { gridSizeX = value; } }
-    public int GridSizeY { get { return gridSizeY; } set { gridSizeY = value; } }
+    public GridInfo GridInfo { get { return gridInfo; } set { gridInfo = value; } }
     public Spawner Spawner { get { return spawner; } set { spawner = value; } }
 
     private void Awake()
@@ -24,8 +25,8 @@ public class Grid : MonoBehaviour
 
     void Initialize()
     {
-        grid = new GridUnit[gridSizeX, gridSizeY];
-
+        LoadGridInfo(Application.dataPath + "/GrindInfo.txt");
+        grid = new GridUnit[GridInfo.sizeX, GridInfo.sizeY];
         int colorIndex = 0;
 
         for (int i = 0; i < grid.GetLength(0); i++)
@@ -78,4 +79,39 @@ public class Grid : MonoBehaviour
         spawner.transform.position = new Vector3(gridUnit.XPosition, gridUnit.YPosition, -3);
         spawner.SetCurrentGridUnit(gridUnit);
     }
+
+    void LoadGridInfo(string path)
+    {
+        if (!File.Exists(path))
+        {
+            gridInfo = new GridInfo(gridSizeX, gridSizeY);
+            string jsonData = JsonUtility.ToJson(gridInfo);
+            File.WriteAllText(path, jsonData);
+        }
+        else
+        {
+            string jsonData = File.ReadAllText(path);
+            gridInfo = JsonUtility.FromJson<GridInfo>(jsonData);
+        }
+
+        if (gridInfo.sizeX != gridSizeX || gridInfo.sizeY != gridSizeY)
+        {
+            gridInfo = new GridInfo(gridSizeX, gridSizeY);
+            string jsonData = JsonUtility.ToJson(gridInfo);
+            File.WriteAllText(path, jsonData);
+        }
+    }
+}
+
+[System.Serializable]
+public class GridInfo
+{
+
+    public GridInfo(int _sizeX, int _sizeY)
+    {
+        sizeX = _sizeX;
+        sizeY = _sizeY;
+    }
+    public int sizeX;
+    public int sizeY;
 }

@@ -8,7 +8,6 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] TMP_Text fps;
-    [SerializeField] Camera camera;
     [SerializeField] Grid grid;
     [SerializeField] Slider slider;
     [SerializeField] Button clearButton;
@@ -22,14 +21,14 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        maxZoomOut = grid.GridSizeX < grid.GridSizeY ? (float)grid.GridSizeY / 2 : (float)grid.GridSizeX / 2;
+        maxZoomOut = grid.GridInfo.sizeX < grid.GridInfo.sizeY ? (float)grid.GridInfo.sizeY / 2 : (float)grid.GridInfo.sizeX / 2;
         slider.onValueChanged.AddListener(delegate { CameraZoom(); });
 
         EventTrigger.Entry pointerDown = new EventTrigger.Entry();
         pointerDown.eventID = EventTriggerType.PointerDown;
         pointerDown.callback.AddListener((eventData) =>
         {
-            grid.Spawner.SpawnObjects = true;            
+            grid.Spawner.SpawnObjects = true;
         });
 
         EventTrigger.Entry pointerUp = new EventTrigger.Entry();
@@ -79,8 +78,7 @@ public class UIManager : MonoBehaviour
         {
             RaycastResult curRaysastResult = eventSystemRaysastResults[index];
             if (curRaysastResult.gameObject.layer.ToString() == "UI")
-                Debug.Log("xx");
-            return true;
+                return true;
         }
         return false;
     }

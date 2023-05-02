@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44402242, g: 0.49316543, b: 0.5722324, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -756,8 +756,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40b754cc7aa18b144929cb03b392b05b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridSizeX: 10
-  gridSizeY: 10
+  gridSizeX: 5
+  gridSizeY: 5
   prefab: {fileID: 891921920508191888, guid: 3ba51d8812b7ed549b0bc741ab9d90b5, type: 3}
   spawnerPrefab: {fileID: 3510357513451530680, guid: 42080c5a1e1ad3344a3d839c6fca76ae, type: 3}
 --- !u!4 &773632280
@@ -1300,10 +1300,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fps: {fileID: 811465000}
-  camera: {fileID: 0}
   grid: {fileID: 773632279}
   slider: {fileID: 133463024}
-  spawnButton: {fileID: 1092446301}
   clearButton: {fileID: 444917709}
   spawnTrigger: {fileID: 1092446304}
 --- !u!1 &1442224156
